@@ -49,8 +49,7 @@ public class Action {
         this.statue = statue;
     }
     public String toString(){
-        StringBuffer sb=new StringBuffer();
-        sb.append("{").append("\"id").append("\":\"").append(id).append("\",\"").append("\"name").append("\":\"").append(name).append("\"}");
-        return sb.toString();
+        //StringBuffer sb=new StringBuffer();
+        return "Action [id=" + id + ", name=" + name + ", price=" + price +", statue=" + statue +"]";
     }
 }

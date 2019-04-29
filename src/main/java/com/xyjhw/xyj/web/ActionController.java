@@ -22,7 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@RestController
+@Controller
 public class ActionController {
     @Autowired ActionMapper actionMapper;
 
@@ -36,19 +36,7 @@ public class ActionController {
         return "listAction";
     }
 
-    @RequestMapping(value = "/info",method = RequestMethod.GET)
-    public String getInfo(){
-        StringBuffer sb=new StringBuffer();
-        sb.append("[");
-        List<Action> as = actionMapper.findAll();
-        for (Action a:as
-             ) {
-sb.append(a.toString()).append(",");
-        }
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append("]");
-        return sb.toString();
-    }
+
 
     @RequestMapping("/addAction")
     public String addAction(Action c) throws Exception {
