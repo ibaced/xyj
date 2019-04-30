@@ -10,7 +10,7 @@ public interface ActionMapper {
     @Select("select * from action ")
     List<Action> findAll();
 
-    @Insert(" insert into action ( id,name,price,date ) values ( #{id},#{name},#{price},#{date} ) ")
+    @Insert(" insert into action ( name,price,date ) values ( #{name},#{price},#{date} ) ")
     public int save(Action action);
 
     @Delete(" delete from action where id= #{id} ")

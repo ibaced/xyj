@@ -10,10 +10,10 @@ import javax.persistence.Table;
 public class Member {
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "action_id")
-    private int action_id;
+    private long action_id;
 
     @Column(name = "telephone")
     private String telephone;
@@ -27,19 +27,19 @@ public class Member {
     @Column(name = "beizhu")
     private String beizhu;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public int getAction_id() {
+    public long getAction_id() {
         return action_id;
     }
 
-    public void setAction_id(int action_id) {
+    public void setAction_id(long action_id) {
         this.action_id = action_id;
     }
 

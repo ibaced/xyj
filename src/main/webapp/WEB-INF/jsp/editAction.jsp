@@ -5,9 +5,9 @@
 
     <form action="updateAction" method="post">
 
-        name: <input name="name" value="${c.name}"> <br>
-        price:<input name="price" value="${c.price}"> <br>
-        date:<input name="date" value="${c.date}"> <br>
+        name: <input type="text" name="name" value="${c.name}"> <br>
+        price:<input type="number" name="price" value="${c.price}"> <br>
+        date:<input type="number" name="date" value="${c.date}"> <br>
         <input name="id" type="hidden" value="${c.id}">
         <button type="submit">提交</button>
 

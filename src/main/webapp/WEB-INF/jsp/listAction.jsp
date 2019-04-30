@@ -38,9 +38,6 @@
     </div>
     <br>
     <form action="addAction" method="post">
-
-        id: <input name="id"> <br>
-        <button type="submit">提交</button>
-
+        <button type="submit">生成新活动</button>
     </form>
 </div>
