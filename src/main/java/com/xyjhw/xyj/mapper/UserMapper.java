@@ -8,7 +8,7 @@ public interface UserMapper {
     @Select("select * from user ")
     List<User> findAll();
 
-    @Insert(" insert into user ( id,password ) values ( #{id},#{passord} ) ")
+    @Insert(" insert into user ( id,password ) values ( #{id},#{password} ) ")
     public int save(User user);
 
     @Delete(" delete from user where id= #{id} ")

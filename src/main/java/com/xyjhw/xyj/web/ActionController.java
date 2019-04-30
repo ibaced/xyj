@@ -44,7 +44,7 @@ public class ActionController {
         return "redirect:listAction";
     }
     @RequestMapping("/editAction")
-    public String listAction(int id,Model m) throws Exception {
+    public String listAction(long id,Model m) throws Exception {
         Action c= actionMapper.get(id);
         m.addAttribute("c", c);
         return "editAction";

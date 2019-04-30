@@ -15,7 +15,7 @@ public interface MemberMapper {
     @Delete(" delete from member where id= #{id} ")
     public void delete(long id);
 
-    @Update("update member set action_id=#{action_id},telephone=#{telephone},name=#{name},idcard=#{idcard},beizhu=#{beizhu} where id=#{id} ")
+    @Update("update member set telephone=#{telephone},name=#{name},idcard=#{idcard},beizhu=#{beizhu} where id=#{id} ")
     public int update(Member member);
 
     @Select("select * from member where id= #{id} ")

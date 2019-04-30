@@ -48,7 +48,7 @@ public class ActionService {
         return true;
     }
     @RequestMapping(value="/getActionService",method = RequestMethod.POST)
-    public Action listAction(int id) throws Exception {
+    public Action listAction(long id) throws Exception {
             Action c= actionMapper.get(id);
         return c;
     }
