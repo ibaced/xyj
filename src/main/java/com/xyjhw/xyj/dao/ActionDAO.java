@@ -1,8 +1,6 @@
 package com.xyjhw.xyj.dao;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.xyjhw.xyj.pojo.Action;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ActionDAO extends JpaRepository<Action,Integer>{
 

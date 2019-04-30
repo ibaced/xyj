@@ -5,12 +5,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.*;
 @Entity
 @Table(name = "action")
 public class Action {
     @Id
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "name")
     private String name;
@@ -18,12 +19,12 @@ public class Action {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "statue")
-    private int statue;
-    public int getId() {
+    @Column(name = "date")
+    private long date;
+    public long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     public String getName() {
@@ -32,24 +33,20 @@ public class Action {
     public void setName(String name) {
         this.name = name;
     }
-
-    public int getPrice() {
+    public long getPrice() {
         return price;
     }
-
     public void setPrice(int price) {
         this.price = price;
     }
-
-    public int getStatue() {
-        return statue;
+    public long getDate() {
+        return date;
     }
-
-    public void setStatue(int statue) {
-        this.statue = statue;
+    public void setDate(long date) {
+        this.date = date;
     }
     public String toString(){
         //StringBuffer sb=new StringBuffer();
-        return "Action [id=" + id + ", name=" + name + ", price=" + price +", statue=" + statue +"]";
+        return "Action [id=" + id + ", name=" + name + ", price=" + price +", statue=" + date +"]";
     }
 }

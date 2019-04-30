@@ -2,7 +2,7 @@
          pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<fmt:formatDate value='${model.getTime}' type='date' pattern='yyyy-MM-dd'/>
 <div align="center">
 
 </div>
@@ -12,6 +12,8 @@
         <tr>
             <td>id</td>
             <td>name</td>
+            <td>price</td>
+            <td>date</td>
             <td>编辑</td>
             <td>删除</td>
         </tr>
@@ -19,6 +21,8 @@
             <tr>
                 <td>${c.id}</td>
                 <td>${c.name}</td>
+                <td>${c.price}</td>
+                <td> ${c.date}</td>
                 <td><a href="editAction?id=${c.id}">编辑</a></td>
                 <td><a href="deleteAction?id=${c.id}">删除</a></td>
             </tr>

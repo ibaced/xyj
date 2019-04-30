@@ -1,10 +1,8 @@
 package com.xyjhw.xyj.mapper;
-
+import com.xyjhw.xyj.pojo.Action;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
-
-import com.xyjhw.xyj.pojo.Action;
 
 @Mapper
 public interface ActionMapper {
@@ -12,21 +10,15 @@ public interface ActionMapper {
     @Select("select * from action ")
     List<Action> findAll();
 
-    @Insert(" insert into action ( id ) values (#{id}) ")
+    @Insert(" insert into action ( id,name,price,date ) values ( #{id},#{name},#{price},#{date} ) ")
     public int save(Action action);
 
     @Delete(" delete from action where id= #{id} ")
-    public void delete(int id);
+    public void delete(long id);
+
+    @Update("update action set name=#{name},price=#{price},date=#{date} where id=#{id} ")
+    public int update(Action action);
 
     @Select("select * from action where id= #{id} ")
-    public Action get(int id);
-
-    @Update("update action set name=#{name} where id=#{id} ")
-    public int updatename(Action action);
-
-    @Update("update action set price=#{price} where id=#{id} ")
-    public int updateprice(Action action);
-
-    @Update("update action set statue=#{statue} where id=#{id} ")
-    public int updatestatue(Action action);
+    public Action get(long id);
 }
