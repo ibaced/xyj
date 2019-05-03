@@ -18,6 +18,9 @@ public interface MemberMapper {
     @Update("update member set telephone=#{telephone},name=#{name},idcard=#{idcard},beizhu=#{beizhu} where id=#{id} ")
     public int update(Member member);
 
+    @Update("update member set beizhu=\"已经付款\" where beizhu=#{beizhu} ")
+    public int updatebeizhu(String beizhu);
+
     @Select("select * from member where id= #{id} ")
     public Member get(long id);
 }

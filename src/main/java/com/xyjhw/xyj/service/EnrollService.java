@@ -7,9 +7,13 @@ import com.xyjhw.xyj.pojo.Member;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
+import org.springframework.boot.autoconfigure.data.redis.JedisClientConfigurationBuilderCustomizer;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -47,13 +51,13 @@ public class EnrollService {
                 json.put("url", "");
             } else {
                 StringBuffer sb = new StringBuffer();
-                String gdsnm=a.getName();
-                String odruid=m.getName();
+                String gdsnm=String.valueOf(a.getId());
+                String odruid=m.getIdcard();
                 float price=Float.parseFloat(String.valueOf(a.getPrice()))/100;
                 NumberFormat formatter = new DecimalFormat("0.00");
                 String formmatedFloatValue = formatter.format(price);
 
-                String odrid=new String(gdsnm+odruid+date.getTime()%100);
+                String odrid=new String(gdsnm+odruid+m.getTelephone()+date.getTime()%100);
                 sb.append(gdsnm);//goodsname
                 sb.append("2");//istype
                 sb.append("http://zjhxiyuzhongxin.cn:8080/xyj/enroll/paysapi_notify");//
@@ -107,13 +111,9 @@ public class EnrollService {
                 json.put("success", true);
                 json.put("msg", "");
                 json.put("url",url);
-
-                JSONObject jsonredis=new JSONObject();
-                jsonredis.put("action_id",m.getAction_id());
-                jsonredis.put("telephone",m.getTelephone());
-                jsonredis.put("name",m.getName());
-                jsonredis.put("idcard",m.getIdcard());
-
+                m.setBeizhu(odrid+rdm);
+                memberMapper.save(m);
+                System.out.println(odrid);
             }
         }catch (Exception e){
             json.put("success", false);
@@ -134,8 +134,9 @@ public class EnrollService {
 
     }
     @RequestMapping(value = "/paysapi_notify")
-    public void paysapi_notify(HttpServletResponse response){
-
+    public void paysapi_notify(HttpServletResponse response, HttpServletRequest request){
+String bz=request.getParameter("orderid");
+memberMapper.updatebeizhu(bz);
     }
 
 
