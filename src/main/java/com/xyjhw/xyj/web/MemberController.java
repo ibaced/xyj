@@ -1,7 +1,6 @@
 package com.xyjhw.xyj.web;
 
 import java.util.List;
-
 import com.xyjhw.xyj.pojo.Member;
 import org.springframework.web.bind.annotation.*;
 import com.github.pagehelper.PageHelper;
@@ -11,19 +10,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.xyjhw.xyj.mapper.MemberMapper;
-//import com.xyjhw.xyj.dao.MemberDAO;
 
 @Controller
 public class MemberController {
     @Autowired
     MemberMapper memberMapper;
-    // @Autowired MemberDAO memberDAO;
-
 
     @RequestMapping("/enroll/success")
     public String enroll() throws Exception {
         return "success";
     }
+
     @RequestMapping("/listMember")
     public String listMember(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "20") int size) throws Exception {
         PageHelper.startPage(start, size, "id desc");
@@ -32,7 +29,6 @@ public class MemberController {
         m.addAttribute("page", page);
         return "listMember";
     }
-
 
     @RequestMapping("/addMember")
     public String addMember(Member c) throws Exception {

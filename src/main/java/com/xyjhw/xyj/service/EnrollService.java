@@ -7,12 +7,8 @@ import com.xyjhw.xyj.pojo.Member;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
-import org.springframework.boot.autoconfigure.data.redis.JedisClientConfigurationBuilderCustomizer;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,7 +20,6 @@ import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-//import org.apache.shiro.crypto.hash.Md5Hash;
 @RestController
 @RequestMapping("/enroll")
 public class EnrollService {
@@ -32,15 +27,14 @@ public class EnrollService {
     ActionMapper actionMapper;
     @Autowired
     MemberMapper memberMapper;
+
     @RequestMapping(value = "/check",produces="application/json")
     public void postInfo(Member m, HttpServletResponse response) throws NoSuchAlgorithmException, JSONException {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setContentType("application/json;charset=utf-8");
         JSONObject json = new JSONObject();
-
+        Action a = actionMapper.get(m.getAction_id());
         try {
-            Action a = actionMapper.get(m.getAction_id());
-
             Calendar cal = Calendar.getInstance();
             long datelong = cal.get(Calendar.DATE) + (cal.get(Calendar.MONTH) + 1) * 100 + cal.get(Calendar.YEAR) * 10000;
             Date date=new Date();
@@ -56,7 +50,6 @@ public class EnrollService {
                 float price=Float.parseFloat(String.valueOf(a.getPrice()))/100;
                 NumberFormat formatter = new DecimalFormat("0.00");
                 String formmatedFloatValue = formatter.format(price);
-
                 String odrid=new String(gdsnm+odruid+m.getTelephone()+date.getTime()%100);
                 sb.append(gdsnm);//goodsname
                 sb.append("2");//istype
@@ -97,7 +90,6 @@ public class EnrollService {
                 data.put("key",key);
                 json.put("data", data);
                 */
-
                 String url = "https://pay.sxhhjc.cn/?"
                         + "uid=" + "3140582701d0be669f91d5e1" + "&"
                         + "price=" + formmatedFloatValue + "&"
@@ -113,7 +105,6 @@ public class EnrollService {
                 json.put("url",url);
                 m.setBeizhu(odrid+rdm);
                 memberMapper.save(m);
-                System.out.println(odrid);
             }
         }catch (Exception e){
             json.put("success", false);
@@ -131,23 +122,10 @@ public class EnrollService {
                 out.close();
             }
         }
-
     }
     @RequestMapping(value = "/paysapi_notify")
     public void paysapi_notify(HttpServletResponse response, HttpServletRequest request){
-String bz=request.getParameter("orderid");
-memberMapper.updatebeizhu(bz);
+        String bz=request.getParameter("orderid");
+        memberMapper.updatebeizhu(bz);
     }
-
-
-    /*@RequestMapping(value = "/check",method = RequestMethod.GET)
-    public JSONObject getInfo(Member m, HttpServletResponse response){
-        response.setHeader("Access-Control-Allow-Origin","*");
-        response.setContentType("application/json");
-        String st=new String("[{\"success\":true,\"msg\":\"\",\"url\":\"https://pay.sxhhjc.cn/?\"}]");
-        JSONArray json = new JSONArray();
-        json.put(st);
-        JSONObject resultJson = json.optJSONObject(0);
-        return resultJson;
-    }*/
 }

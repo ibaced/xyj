@@ -11,13 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.xyjhw.xyj.mapper.UserMapper;
-//import com.xyjhw.xyj.dao.UserDAO;
 
 @Controller
 public class UserController {
     @Autowired
     UserMapper userMapper;
-    // @Autowired UserDAO userDAO;
 
     @RequestMapping("/listUser")
     public String listUser(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "20") int size) throws Exception {
@@ -27,7 +25,6 @@ public class UserController {
         m.addAttribute("page", page);
         return "listUser";
     }
-
 
     @RequestMapping("/addUser")
     public String addUser(User c) throws Exception {

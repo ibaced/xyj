@@ -32,7 +32,6 @@ public class User {
     }
 
     public String toString(){
-        //StringBuffer sb=new StringBuffer();
         return "Action [id=" + id + ", password=" + password + "]";
     }
 }

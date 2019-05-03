@@ -46,7 +46,6 @@ public class Action {
         this.date = date;
     }
     public String toString(){
-        //StringBuffer sb=new StringBuffer();
         return "Action [id=" + id + ", name=" + name + ", price=" + price +", statue=" + date +"]";
     }
 }

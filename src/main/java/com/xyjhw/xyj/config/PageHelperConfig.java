@@ -1,15 +1,12 @@
 package com.xyjhw.xyj.config;
 
 import java.util.Properties;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import com.github.pagehelper.PageHelper;
 
 @Configuration
 public class PageHelperConfig {
-
     @Bean
     public PageHelper pageHelper() {
         PageHelper pageHelper = new PageHelper();
