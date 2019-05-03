@@ -19,6 +19,11 @@ public class MemberController {
     MemberMapper memberMapper;
     // @Autowired MemberDAO memberDAO;
 
+
+    @RequestMapping("/enroll/success")
+    public String enroll() throws Exception {
+        return "success";
+    }
     @RequestMapping("/listMember")
     public String listMember(Model m, @RequestParam(value = "start", defaultValue = "0") int start, @RequestParam(value = "size", defaultValue = "20") int size) throws Exception {
         PageHelper.startPage(start, size, "id desc");
