@@ -4,37 +4,23 @@ import com.xyjhw.xyj.mapper.ActionMapper;
 import com.xyjhw.xyj.mapper.MemberMapper;
 import com.xyjhw.xyj.pojo.Action;
 import com.xyjhw.xyj.pojo.Member;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Calendar;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+
 //import org.apache.shiro.crypto.hash.Md5Hash;
-import org.apache.tomcat.util.security.MD5Encoder;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import com.xyjhw.xyj.mapper.ActionMapper;
-import com.xyjhw.xyj.mapper.MemberMapper;
-import com.xyjhw.xyj.pojo.Action;
-import com.xyjhw.xyj.pojo.Member;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.*;
-import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping("/enroll")
 public class EnrollService {
@@ -59,16 +45,22 @@ public class EnrollService {
                 json.put("success", false);
                 json.put("msg", "超过报名时间");
                 json.put("url", "");
-                // return json.toString();
             } else {
                 StringBuffer sb = new StringBuffer();
-                sb.append("12345678");//goodsname
+                String gdsnm=a.getName();
+                String odruid=m.getName();
+                float price=Float.parseFloat(String.valueOf(a.getPrice()))/100;
+                NumberFormat formatter = new DecimalFormat("0.00");
+                String formmatedFloatValue = formatter.format(price);
+
+                String odrid=new String(gdsnm+odruid+date.getTime()%100);
+                sb.append(gdsnm);//goodsname
                 sb.append("2");//istype
                 sb.append("http://zjhxiyuzhongxin.cn:8080/xyj/enroll/paysapi_notify");//
-                sb.append("123456");//orderid
+                sb.append(odrid);//orderid
                 sb.append(rdm);
-                sb.append("1234567");//orderuid
-                sb.append("0.01");
+                sb.append(odruid);//orderuid
+                sb.append(formmatedFloatValue);
                 sb.append("http://zjhxiyuzhongxin.cn:8080/xyj/enroll/success");
                 sb.append("05a14d0c9df09d1616dd2c1352cc5481");
                 sb.append("3140582701d0be669f91d5e1");
@@ -87,7 +79,6 @@ public class EnrollService {
                         buf.append("0");
                     buf.append(Integer.toHexString(i));
                 }
-
                 re_md5 = buf.toString();
                 String key = re_md5;
                /* JSONObject data=new JSONObject();
@@ -105,17 +96,24 @@ public class EnrollService {
 
                 String url = "https://pay.sxhhjc.cn/?"
                         + "uid=" + "3140582701d0be669f91d5e1" + "&"
-                        + "price=" + "0.01" + "&"
+                        + "price=" + formmatedFloatValue + "&"
                         + "istype=" + "2" + "&"
                         + "notify_url=" + "http://zjhxiyuzhongxin.cn:8080/xyj/enroll/paysapi_notify" + "&"
                         + "return_url=" + "http://zjhxiyuzhongxin.cn:8080/xyj/enroll/success" + "&"
-                        + "orderid=" + "123456" +rdm+ "&"
-                        + "orderuid=" + "1234567" + "&"
-                        + "goodsname=" + "12345678" + "&"
+                        + "orderid=" + odrid +rdm+ "&"
+                        + "orderuid=" + odruid + "&"
+                        + "goodsname=" + gdsnm + "&"
                         + "key=" + key;
                 json.put("success", true);
                 json.put("msg", "");
                 json.put("url",url);
+
+                JSONObject jsonredis=new JSONObject();
+                jsonredis.put("action_id",m.getAction_id());
+                jsonredis.put("telephone",m.getTelephone());
+                jsonredis.put("name",m.getName());
+                jsonredis.put("idcard",m.getIdcard());
+
             }
         }catch (Exception e){
             json.put("success", false);
@@ -133,6 +131,7 @@ public class EnrollService {
                 out.close();
             }
         }
+
     }
     @RequestMapping(value = "/paysapi_notify")
     public void paysapi_notify(HttpServletResponse response){
